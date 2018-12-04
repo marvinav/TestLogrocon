@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="TestLogrocon.View.OrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestLogrocon.View"
+             mc:Ignorable="d">
+    <Grid>
+
+        <Rectangle Width="350" Grid.ColumnSpan="5" Grid.RowSpan="5"></Rectangle>
+        <DockPanel LastChildFill="True" >
+            <Label Content="Описание заказа" DockPanel.Dock="Top"></Label>
+
+            <Button Command="{Binding EditOrderCommand}" CommandParameter="{Binding SelectedOrder}"  DockPanel.Dock="Bottom" Content="Сохранить изменения" Height="auto"/>
+
+            <TextBox  Text="{Binding  NewOrder.Description}" MinHeight="100"
+                     TextWrapping="Wrap" AcceptsReturn="True"
+                     ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

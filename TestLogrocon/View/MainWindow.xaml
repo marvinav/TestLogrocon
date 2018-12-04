@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="TestLogrocon.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestLogrocon"
+        mc:Ignorable="d"
+        IsEnabled="{Binding IsEnabled}">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GridSplitter Grid.Column="1" Grid.RowSpan="2" ShowsPreview="False" Width="3"
+        HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+        <ListView Margin="3,3,3,3" Grid.Column="0" ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=VIP}"
+                      Value="True">
+                            <Setter Property="Background" Value="Red" />
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="YellowGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+                    <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding Path=Address}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Row="2" Margin="3,3,3,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="Добавить нового клиента" Command="{Binding AddClientCommand}"></Button>
+            <Button Grid.Column="1" Content="Удалить выбранного клиента" Command="{Binding RemoveCommand}" 
+                        CommandParameter="{Binding SelectedClient}"
+                        HorizontalContentAlignment="Center"></Button>
+        </Grid>
+
+        <DockPanel Grid.Column="2" LastChildFill="True" Grid.RowSpan="2">
+            <StackPanel Margin="3,3,3,3" DockPanel.Dock="Top" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Label Content="Имя клиента:"></Label>
+                <TextBox Text="{Binding SelectedClient.Name, Mode=TwoWay}" IsEnabled="{Binding IsClientSelected}"></TextBox>
+                <Label Content="Адрес клиента"></Label>
+                <TextBox Text="{Binding SelectedClient.Address, Mode=TwoWay}" IsEnabled="{Binding IsClientSelected}"></TextBox>
+                <CheckBox Margin="3,6,3,3" Content="VIP" IsChecked="{Binding SelectedClient.VIP, Mode=TwoWay}" IsEnabled="{Binding IsClientSelected}"></CheckBox>
+
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" Margin="3,3,3,3">
+                <Button  Content="Добавить заказ" Command="{Binding AddOrderCommand}" CommandParameter="{Binding SelectedClient}"></Button>
+                <Button  Content="Удалить заказ" Command="{Binding RemoveOrderCommand}" CommandParameter="{Binding SelectedOrder}"></Button>
+                <Button  Content="Редактировать заказ" Command="{Binding EditOrderCommand}" ></Button>
+            </StackPanel>
+            <ListView  Margin="3,3,3,3" ItemsSource="{Binding Orders, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedOrder}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="№ заказа" DisplayMemberBinding="{Binding Path=Number}"></GridViewColumn>
+                        <GridViewColumn Header="Описание заказа" DisplayMemberBinding="{Binding Path=Description}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </DockPanel>
+
+    </Grid>
+</UserControl>
